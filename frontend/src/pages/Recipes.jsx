@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import RecipeCard from '../components/RecipeCard';
-import { Search, Filter } from 'lucide-react';
+import RecipeSkeleton from '../components/RecipeSkeleton';
+import { Search, Filter, ShoppingBag } from 'lucide-react';
 import api from '../api';
 
 export default function Recipes() {
@@ -90,7 +91,9 @@ export default function Recipes() {
       </div>
 
       {loading ? (
-        <div style={{ textAlign: 'center', padding: '5rem', color: 'var(--text-muted)' }}>Loading recipes...</div>
+        <div className="grid grid-cols-3">
+          {[...Array(6)].map((_, i) => <RecipeSkeleton key={i} />)}
+        </div>
       ) : recipes.length > 0 ? (
         <div className="grid grid-cols-3">
           {recipes.map(recipe => (
@@ -98,11 +101,12 @@ export default function Recipes() {
           ))}
         </div>
       ) : (
-        <div style={{ textAlign: 'center', padding: '5rem', backgroundColor: 'var(--card-bg)', borderRadius: '1rem' }}>
+        <div style={{ textAlign: 'center', padding: '5rem', backgroundColor: 'var(--card-bg)', borderRadius: '1rem', border: '2px dashed var(--border-color)' }}>
+          <ShoppingBag size={64} style={{ color: 'var(--border-color)', marginBottom: '1.5rem', marginInline: 'auto' }} />
           <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>No recipes found</h3>
-          <p style={{ color: 'var(--text-muted)' }}>Try adjusting your search criteria or clear your filters.</p>
-          <button className="btn btn-outline" style={{ marginTop: '1rem' }} onClick={() => { setSearch(''); setCategory(''); setTime(''); }}>
-            Clear Filters
+          <p style={{ color: 'var(--text-muted)' }}>We couldn't find anything matching your search. Try adjusting your filters.</p>
+          <button className="btn btn-outline" style={{ marginTop: '1.5rem' }} onClick={() => { setSearch(''); setCategory(''); setTime(''); }}>
+            Clear All Filters
           </button>
         </div>
       )}

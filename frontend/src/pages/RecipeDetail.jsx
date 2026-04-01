@@ -36,8 +36,13 @@ export default function RecipeDetail() {
     }
   };
 
-  if (loading) return <div className="container" style={{ padding: '5rem', textAlign: 'center' }}>Loading recipe...</div>;
-  if (!recipe) return <div className="container" style={{ padding: '5rem', textAlign: 'center' }}>Recipe not found</div>;
+  if (loading) return (
+    <div className="container fade-in" style={{ padding: '5rem', textAlign: 'center' }}>
+      <div className="skeleton" style={{ height: '400px', width: '100%', borderRadius: '1rem', marginBottom: '2rem' }}></div>
+      <div className="skeleton" style={{ height: '40px', width: '60%', margin: '0 auto 1rem', borderRadius: '4px' }}></div>
+      <div className="skeleton" style={{ height: '20px', width: '40%', margin: '0 auto', borderRadius: '4px' }}></div>
+    </div>
+  );
 
   const imageUrl = recipe.image 
     ? `http://localhost:3001${recipe.image}`

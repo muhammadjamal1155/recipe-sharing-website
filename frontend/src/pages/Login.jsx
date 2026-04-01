@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import api from '../api';
 
 export default function Login() {
@@ -9,13 +10,15 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    const loginToast = toast.loading('Logging in...');
     try {
       const res = await api.post('/login', { username, password });
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('username', res.data.username);
+      toast.success('Welcome back!', { id: loginToast });
       navigate('/');
     } catch (error) {
-      alert('Login failed: ' + (error.response?.data?.message || 'Invalid credentials'));
+      toast.error(error.response?.data?.message || 'Invalid credentials', { id: loginToast });
     }
   };
 
