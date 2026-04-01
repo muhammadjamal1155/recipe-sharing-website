@@ -58,6 +58,15 @@ export default function RecipeDetail() {
     ? `http://localhost:3001${recipe.image}`
     : `https://placehold.co/1200x500/f8fafc/0f172a?font=outfit&text=${encodeURIComponent(recipe.title)}`;
 
+  const handleServingChange = (val) => {
+    const num = parseInt(val);
+    if (!isNaN(num) && num >= 1 && num <= 99) {
+      setServings(num);
+    } else if (val === '') {
+      setServings(''); // Allow temporary empty for typing
+    }
+  };
+
   return (
     <div style={{ paddingBottom: '5rem' }}>
       <div style={{ height: '450px', width: '100%', position: 'relative' }}>
@@ -95,21 +104,32 @@ export default function RecipeDetail() {
               <Users size={18} color="var(--primary)" />
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <button 
-                  onClick={() => servings > 1 && setServings(servings - 1)}
+                  onClick={() => servings > 1 && setServings(Number(servings) - 1)}
                   className="btn-icon"
+                  title="Remove Serving"
                 >
                   <Minus size={20} />
                 </button>
-                <span style={{ fontWeight: 800, fontSize: '1.2rem', minWidth: '30px', textAlign: 'center' }}>{servings}</span>
+                <input 
+                   type="number"
+                   value={servings}
+                   onChange={(e) => handleServingChange(e.target.value)}
+                   style={{ 
+                     width: '50px', border: 'none', background: 'transparent', textAlign: 'center',
+                     fontWeight: 800, fontSize: '1.2rem', outline: 'none'
+                   }}
+                />
                 <button 
-                  onClick={() => setServings(servings + 1)}
+                  onClick={() => servings < 99 && setServings(Number(servings) + 1)}
                   className="btn-icon"
+                  title="Add Serving"
                 >
                   <Plus size={20} />
                 </button>
               </div>
             </div>
           </div>
+
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.25rem', marginBottom: '5rem' }}>
             {recipe.ingredients.split(',').map((item, idx) => (
