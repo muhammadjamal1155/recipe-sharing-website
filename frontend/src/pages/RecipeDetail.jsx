@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Clock, ChefHat, Star, Trash2, Edit, Users, Plus, Minus, CheckCircle } from 'lucide-react';
 import api from '../api';
+import { motion } from 'framer-motion';
 
 export default function RecipeDetail() {
   const { id } = useParams();
@@ -67,32 +68,42 @@ export default function RecipeDetail() {
             {recipe.category}
           </span>
           <h1 style={{ fontSize: '4rem', marginBottom: '1rem', textShadow: '0 4px 10px rgba(0,0,0,0.3)' }}>{recipe.title}</h1>
-          <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', fontSize: '1.1rem' }}>
+          <div 
+            className="glass"
+            style={{ 
+              display: 'flex', gap: '2.5rem', alignItems: 'center', fontSize: '1.1rem',
+              width: 'fit-content', padding: '1rem 2rem', borderRadius: '1rem',
+              background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
+            }}
+          >
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Star size={20} fill="#fbbf24" color="#fbbf24"/> {recipe.rating || 'New'}</span>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Clock size={20} /> {recipe.time}</span>
             <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><ChefHat size={20} /> {recipe.difficulty}</span>
-            <span style={{ opacity: 0.8 }}>By {recipe.author}</span>
           </div>
         </div>
       </div>
 
-      <div className="container" style={{ padding: '4rem 1rem', display: 'grid', gridTemplateColumns: '1fr 340px', gap: '4rem' }}>
+      <div className="container" style={{ padding: '5rem 1rem', display: 'grid', gridTemplateColumns: '1fr 360px', gap: '5rem' }}>
         <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
-            <h2 style={{ fontSize: '2.5rem', margin: 0 }}>Ingredients</h2>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#f8fafc', padding: '0.5rem 1rem', borderRadius: '0.75rem', border: '1px solid var(--border-color)' }}>
-              <Users size={18} color="var(--text-muted)" />
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
+            <div>
+              <h2 style={{ fontSize: '2.8rem', margin: 0 }}>Ingredients</h2>
+              <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>Check items as you gather them from your pantry.</p>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#fff', padding: '0.75rem 1.25rem', borderRadius: '1rem', boxShadow: 'var(--card-shadow)' }}>
+              <Users size={18} color="var(--primary)" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <button 
                   onClick={() => servings > 1 && setServings(servings - 1)}
-                  style={{ color: 'var(--primary)', padding: '0.2rem' }}
+                  className="btn-icon"
                 >
                   <Minus size={20} />
                 </button>
-                <span style={{ fontWeight: 700, fontSize: '1.1rem', minWidth: '40px', textAlign: 'center' }}>{servings}</span>
+                <span style={{ fontWeight: 800, fontSize: '1.2rem', minWidth: '30px', textAlign: 'center' }}>{servings}</span>
                 <button 
                   onClick={() => setServings(servings + 1)}
-                  style={{ color: 'var(--primary)', padding: '0.2rem' }}
+                  className="btn-icon"
                 >
                   <Plus size={20} />
                 </button>
@@ -100,81 +111,98 @@ export default function RecipeDetail() {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gap: '1rem', marginBottom: '4rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.25rem', marginBottom: '5rem' }}>
             {recipe.ingredients.split(',').map((item, idx) => (
-              <div 
+              <motion.div 
                 key={idx} 
                 onClick={() => toggleIngredient(idx)}
+                whileHover={{ scale: 1.02 }}
                 style={{ 
-                  display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem', 
-                  backgroundColor: checkedIngredients.includes(idx) ? '#f0fdf4' : 'transparent',
-                  borderRadius: '1rem', border: '1px solid', borderColor: checkedIngredients.includes(idx) ? '#bbf7d0' : 'var(--border-color)',
-                  cursor: 'pointer', transition: 'all 0.2s', opacity: checkedIngredients.includes(idx) ? 0.7 : 1
+                  display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.5rem', 
+                  backgroundColor: checkedIngredients.includes(idx) ? '#f0fdf4' : '#fff',
+                  borderRadius: '1.25rem', border: '1px solid', borderColor: checkedIngredients.includes(idx) ? '#bbf7d0' : 'var(--border-color)',
+                  cursor: 'pointer', transition: 'all 0.3s', 
+                  boxShadow: checkedIngredients.includes(idx) ? 'none' : '0 4px 6px -1px rgba(0,0,0,0.05)'
                 }}
               >
                 <div style={{ 
-                  width: '24px', height: '24px', borderRadius: '6px', border: '2px solid', 
-                  borderColor: checkedIngredients.includes(idx) ? '#22c55e' : 'var(--border-color)',
+                  width: '28px', height: '28px', borderRadius: '8px', border: '2px solid', 
+                  borderColor: checkedIngredients.includes(idx) ? '#22c55e' : '#cbd5e1',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  backgroundColor: checkedIngredients.includes(idx) ? '#22c55e' : 'transparent'
+                  backgroundColor: checkedIngredients.includes(idx) ? '#22c55e' : '#fff',
+                  transition: 'all 0.3s'
                 }}>
-                  {checkedIngredients.includes(idx) && <CheckCircle size={16} color="white" />}
+                  {checkedIngredients.includes(idx) && <CheckCircle size={18} color="white" />}
                 </div>
                 <span style={{ 
                    fontSize: '1.1rem', 
                    textDecoration: checkedIngredients.includes(idx) ? 'line-through' : 'none',
-                   color: checkedIngredients.includes(idx) ? 'var(--text-muted)' : 'var(--text-main)',
+                   color: checkedIngredients.includes(idx) ? '#94a3b8' : 'var(--text-main)',
                    fontWeight: 500
                 }}>
                   {item.trim()}
                 </span>
-              </div>
+              </motion.div>
             ))}
           </div>
 
-          <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>Instructions</h2>
-          <div style={{ fontSize: '1.25rem', lineHeight: '2', whiteSpace: 'pre-line', color: 'var(--text-main)', backgroundColor: '#fffbf7', padding: '2.5rem', borderRadius: '1.5rem', border: '1px solid #fef3c7' }}>
-            {recipe.instructions}
+          <h2 style={{ fontSize: '2.8rem', marginBottom: '2.5rem' }}>Instructions</h2>
+          <div style={{ display: 'grid', gap: '2rem' }}>
+            {recipe.instructions.split('\n').filter(line => line.trim()).map((step, idx) => (
+               <div key={idx} style={{ display: 'flex', gap: '2rem' }}>
+                  <div style={{ 
+                    flexShrink: 0, width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'var(--primary)',
+                    color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '1.1rem'
+                  }}>
+                    {idx + 1}
+                  </div>
+                  <p style={{ fontSize: '1.3rem', lineHeight: '1.8', margin: 0, color: 'var(--text-main)' }}>
+                    {step.trim()}
+                  </p>
+               </div>
+            ))}
           </div>
         </div>
 
-        <div>
+        <div style={{ position: 'sticky', top: '2rem', height: 'fit-content' }}>
           {currentUser === recipe.author && (
-            <div className="card" style={{ padding: '2rem', marginBottom: '2rem', border: '1px solid #fee2e2' }}>
-              <h3 style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>Creator Tools</h3>
-              <button onClick={handleDelete} className="btn" style={{ width: '100%', backgroundColor: '#ef4444', color: 'white', marginBottom: '1rem' }}>
-                <Trash2 size={18} style={{ marginRight: '0.5rem' }} /> Delete Recipe
+            <div className="card" style={{ padding: '2.5rem', marginBottom: '2.5rem', background: '#fff', border: '1px solid #fee2e2' }}>
+              <h3 style={{ marginBottom: '1.5rem', fontSize: '1.6rem', fontWeight: 700 }}>Creator Lounge</h3>
+              <button onClick={handleDelete} className="btn" style={{ width: '100%', backgroundColor: '#ef4444', color: 'white', marginBottom: '1.25rem', padding: '1rem' }}>
+                <Trash2 size={18} style={{ marginRight: '0.75rem' }} /> Permanent Delete
               </button>
-              <button onClick={() => navigate(`/edit/${id}`)} className="btn btn-outline" style={{ width: '100%', borderColor: 'var(--border-color)', color: 'var(--text-muted)' }}>
-                <Edit size={18} style={{ marginRight: '0.5rem' }} /> Edit Recipe
+              <button onClick={() => navigate(`/edit/${id}`)} className="btn btn-outline" style={{ width: '100%', padding: '1rem' }}>
+                <Edit size={18} style={{ marginRight: '0.75rem' }} /> Refine Recipe
               </button>
             </div>
           )}
           
-          <div className="card" style={{ padding: '2.5rem', backgroundColor: 'var(--text-main)', color: 'white', border: 'none' }}>
-            <div style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1.5rem', marginBottom: '1.5rem' }}>
-              <h3 style={{ fontSize: '1.8rem', marginBottom: '0.5rem' }}>Chef's Notes</h3>
-              <p style={{ opacity: 0.7, fontSize: '0.9rem' }}>Estimated values per serving ({servings} portions)</p>
+          <div className="card" style={{ padding: '3rem', backgroundColor: '#1a1a1a', color: 'white', border: 'none', borderRadius: '2rem', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
+            <div style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '2rem', marginBottom: '2rem' }}>
+              <h3 style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>Chef's Analytics</h3>
+              <p style={{ opacity: 0.5, fontSize: '0.95rem' }}>Scaled for {servings} portions</p>
             </div>
             
-            <div style={{ display: 'grid', gap: '1.25rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ opacity: 0.8 }}>Calories</span>
-                <span style={{ fontWeight: 700 }}>~{(350 * (4/servings)).toFixed(0)} kcal</span>
+            <div style={{ display: 'grid', gap: '1.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ opacity: 0.6, fontSize: '1.1rem' }}>Energy Intensity</span>
+                <span style={{ fontWeight: 800, fontSize: '1.2rem' }}>~{(350 * (4/servings)).toFixed(0)} kcal</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ opacity: 0.8 }}>Protein</span>
-                <span style={{ fontWeight: 700 }}>~{(15 * (4/servings)).toFixed(1)}g</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ opacity: 0.6, fontSize: '1.1rem' }}>Protein Density</span>
+                <span style={{ fontWeight: 800, fontSize: '1.2rem' }}>~{(15 * (4/servings)).toFixed(1)}g</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ opacity: 0.8 }}>Prep Effort</span>
-                <span style={{ fontWeight: 700 }}>High Quality</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ opacity: 0.6, fontSize: '1.1rem' }}>Complexity</span>
+                <span style={{ fontWeight: 800, color: 'var(--primary)', fontSize: '1.2rem' }}>{recipe.difficulty}</span>
               </div>
             </div>
             
-            <p style={{ marginTop: '2rem', fontSize: '0.8rem', opacity: 0.5, fontStyle: 'italic' }}>
-              *Interactive recipe powered by RecipeHub Smart Engine.
-            </p>
+            <div style={{ marginTop: '3rem', padding: '1.5rem', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '1rem' }}>
+              <p style={{ fontSize: '0.85rem', opacity: 0.6, lineHeight: '1.5', margin: 0 }}>
+                Pro Tip: Adjust servings to accurately reflect your nutritional intake. Ratings are verified by the RecipeHub community.
+              </p>
+            </div>
           </div>
         </div>
       </div>
