@@ -42,9 +42,9 @@ export default function RecipeCard({ recipe }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
       whileHover={{ y: -8, transition: { duration: 0.2 } }}
     >
       <Link to={`/recipes/${recipe.id}`} className="card" style={{ display: 'block', textDecoration: 'none', color: 'inherit', position: 'relative' }}>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import RecipeCard from '../components/RecipeCard';
 import RecipeSkeleton from '../components/RecipeSkeleton';
-import { Search, Filter, ShoppingBag } from 'lucide-react';
+import { Search, Filter, ShoppingBag, X } from 'lucide-react';
 import api from '../api';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -15,6 +15,23 @@ export default function Recipes() {
 
   const location = useLocation();
 
+  const fetchRecipes = async (s, c, t, showSkeletons = false) => {
+    const searchQuery = (s.length > 0 && s.length < 3) ? '' : s;
+
+    try {
+      if (showSkeletons) setLoading(true);
+      
+      const res = await api.get('/recipes', {
+        params: { search: searchQuery, category: c, time: t }
+      });
+      setRecipes(res.data);
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+    } finally {
+      if (showSkeletons) setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const initialSearch = queryParams.get('search') || '';
@@ -22,33 +39,39 @@ export default function Recipes() {
     
     setSearch(initialSearch);
     setCategory(initialCategory);
-    fetchRecipes(initialSearch, initialCategory, time);
+    fetchRecipes(initialSearch, initialCategory, time, true);
   }, [location.search]);
 
+  // Debounced search fetch
   useEffect(() => {
-    fetchRecipes(search, category, time);
-  }, [category, time]);
+    // Requirements: 3+ characters or empty
+    if (search.length > 0 && search.length < 3) return;
 
-  const fetchRecipes = async (s, c, t) => {
-    try {
-      setLoading(true);
-      // Slight delay to prevent "jerking" and show the professional skeleton animations
-      await new Promise(resolve => setTimeout(resolve, 400));
-      
-      const res = await api.get('/recipes', {
-        params: { search: s, category: c, time: t }
-      });
-      setRecipes(res.data);
-    } catch (error) {
-      console.error('Error fetching recipes:', error);
-    } finally {
-      setLoading(false);
+    const timer = setTimeout(() => {
+       fetchRecipes(search, category, time, false); // Fetch without skeletons for "live" feel
+    }, 500); // 500ms debounce
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  // Category/Time selection should probably show skeletons as they are "major" filters
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const urlCategory = queryParams.get('category') || '';
+    if (category !== urlCategory || time !== '') {
+       fetchRecipes(search, category, time, true);
     }
-  };
+  }, [category, time]);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    fetchRecipes(search, category, time);
+    fetchRecipes(search, category, time, true);
+  };
+
+
+  const clearSearch = () => {
+    setSearch('');
+    fetchRecipes('', category, time);
   };
 
   const containerVariants = {
@@ -82,9 +105,16 @@ export default function Recipes() {
               placeholder="Search..." 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{ width: '250px', paddingLeft: '2.5rem' }}
+              style={{ width: '250px', paddingLeft: '2.5rem', paddingRight: '2.5rem' }}
             />
             <Search size={18} style={{ position: 'absolute', left: '0.8rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+            {search && (
+              <X 
+                size={18} 
+                onClick={clearSearch}
+                style={{ position: 'absolute', right: '0.8rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', cursor: 'pointer' }} 
+              />
+            )}
           </div>
           
           <select className="input" style={{ width: '150px' }} value={category} onChange={(e) => setCategory(e.target.value)}>
@@ -109,32 +139,30 @@ export default function Recipes() {
         </form>
       </div>
 
-      {loading ? (
+
+      {/* Only show skeletons if we have no recipes yet to avoid annoying flickering/blinking */}
+      {loading && recipes.length === 0 ? (
         <div className="grid grid-cols-3">
           {[...Array(6)].map((_, i) => (
-            <motion.div key={`skeleton-${i}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <RecipeSkeleton />
-            </motion.div>
+             <RecipeSkeleton key={i} />
           ))}
         </div>
       ) : recipes.length > 0 ? (
         <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="grid grid-cols-3"
-          key={category + time + search} // Trigger reflow animation on filter
+          key={category + time} // Fade gently once when major filters change, but not on every keystroke
         >
           {recipes.map(recipe => (
-            <motion.div key={recipe.id} variants={itemVariants}>
-              <RecipeCard recipe={recipe} />
-            </motion.div>
+            <RecipeCard key={recipe.id} recipe={recipe} />
           ))}
         </motion.div>
-      ) : (
+      ) : !loading && (
         <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           style={{ textAlign: 'center', padding: '5rem', backgroundColor: 'var(--card-bg)', borderRadius: '1rem', border: '2px dashed var(--border-color)' }}
         >
           <ShoppingBag size={64} style={{ color: 'var(--border-color)', marginBottom: '1.5rem', marginInline: 'auto' }} />
@@ -145,6 +173,7 @@ export default function Recipes() {
           </button>
         </motion.div>
       )}
+
     </div>
   );
 }
