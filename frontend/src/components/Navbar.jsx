@@ -24,8 +24,8 @@ export default function Navbar() {
         </Link>
         <div className="nav-links">
           <Link to="/" className={`nav-link ${isActive('/')}`}>Home</Link>
-          <Link to="/recipes" className={`nav-link ${isActive('/recipes')}`}>Browse </Link>
-          <Link to="/submit" className={`nav-link ${isActive('/submit')}`}>Submit </Link>
+          <Link to="/recipes" className={`nav-link ${isActive('/recipes')}`}>Explore Recipes</Link>
+          <Link to="/submit" className={`nav-link ${isActive('/submit')}`}>Share Recipe</Link>
           {user ? (
             <>
               <Link to="/profile" className={`nav-link ${isActive('/profile')}`} style={{display: 'flex', alignItems: 'center', gap: '0.2rem'}}>
