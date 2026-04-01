@@ -36,25 +36,23 @@ export default function Profile() {
   }, [user, navigate]);
 
   return (
-    <div className="container" style={{ padding: '4rem 1rem', minHeight: '100vh' }}>
-      <div className="card" style={{ padding: '3rem', marginBottom: '4rem', textAlign: 'center', background: 'linear-gradient(to right, #fef08a, #fed7aa)', border: 'none' }}>
-        <div style={{ width: '100px', height: '100px', borderRadius: '50%', backgroundColor: 'white', margin: '0 auto 1.5rem auto', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', color: 'var(--primary)', fontWeight: 'bold', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}>
+    <div className="container" style={{ padding: '4rem 1rem', minHeight: '100vh', color: 'white' }}>
+      <div className="card" style={{ padding: '4rem 3rem', marginBottom: '5rem', textAlign: 'center', background: 'linear-gradient(135deg, #059669, #0f172a)', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', borderRadius: '2.5rem' }}>
+        <div style={{ width: '120px', height: '120px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', border: '2px solid rgba(255,255,255,0.2)', margin: '0 auto 2rem auto', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3.5rem', color: 'white', fontWeight: 800, boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}>
           {user?.[0]?.toUpperCase()}
         </div>
-        <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Welcome, {user}</h1>
-        <p style={{ color: '#78350f', fontSize: '1.2rem', fontWeight: 500 }}>Community Member</p>
+        <h1 style={{ fontSize: '3.5rem', marginBottom: '1rem', letterSpacing: '-0.02em', fontWeight: 800 }}>Master Chef: {user}</h1>
+        <p style={{ color: 'var(--primary)', fontSize: '1.25rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '2px' }}>Verified Creator</p>
       </div>
 
       {/* Favorites Section */}
-      <div style={{ marginBottom: '5rem' }}>
-        <h2 style={{ fontSize: '2rem', marginBottom: '2rem', borderLeft: '5px solid var(--primary)', paddingLeft: '1rem' }}>
+      <div style={{ marginBottom: '6rem' }}>
+        <h2 style={{ fontSize: '2.5rem', marginBottom: '2.5rem', borderLeft: '8px solid var(--primary)', paddingLeft: '1.5rem', fontWeight: 800 }}>
           Saved Favorites ({favoriteRecipes.length})
         </h2>
         
         {loading ? (
-          <div className="grid grid-cols-3">
-             <div style={{ padding: '2rem', textAlign: 'center', gridColumn: 'span 3' }}>Loading favorites...</div>
-          </div>
+          <div style={{ textAlign: 'center', padding: '5rem', color: 'var(--text-muted)' }}>Analyzing your bookmarks...</div>
         ) : favoriteRecipes.length > 0 ? (
           <div className="grid grid-cols-3">
             {favoriteRecipes.map(recipe => (
@@ -67,23 +65,22 @@ export default function Profile() {
               />
             ))}
           </div>
-
         ) : (
-          <div style={{ padding: '4rem 2rem', textAlign: 'center', backgroundColor: '#f8fafc', borderRadius: '1rem', border: '2px dashed var(--border-color)' }}>
-              <p style={{ color: 'var(--text-muted)', marginBottom: '1rem' }}>You haven't saved any favorites yet.</p>
-              <button className="btn btn-outline" onClick={() => navigate('/recipes')}>Explore Recipes</button>
+          <div style={{ padding: '6rem 2rem', textAlign: 'center', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '2rem', border: '2px dashed rgba(255,255,255,0.05)' }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem', marginBottom: '1.5rem' }}>Your pantry of favorites is currently empty.</p>
+              <button className="btn btn-outline" onClick={() => navigate('/recipes')}>Discover Recipes</button>
           </div>
         )}
       </div>
 
       {/* My Recipes Section */}
       <div>
-        <h2 style={{ fontSize: '2rem', marginBottom: '2rem', borderLeft: '5px solid #64748b', paddingLeft: '1rem' }}>
+        <h2 style={{ fontSize: '2.5rem', marginBottom: '2.5rem', borderLeft: '8px solid #334155', paddingLeft: '1.5rem', fontWeight: 800 }}>
           My Contributions ({myRecipes.length})
         </h2>
         
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '3rem' }}>Loading your contribution...</div>
+          <div style={{ textAlign: 'center', padding: '5rem', color: 'var(--text-muted)' }}>Compiling your library...</div>
         ) : myRecipes.length > 0 ? (
           <div className="grid grid-cols-3">
             {myRecipes.map(recipe => (
@@ -91,14 +88,15 @@ export default function Profile() {
             ))}
           </div>
         ) : (
-          <div style={{ textAlign: 'center', padding: '5rem', backgroundColor: 'var(--card-bg)', borderRadius: '1rem', border: '1px solid var(--border-color)' }}>
-            <p style={{ color: 'var(--text-muted)' }}>You haven't posted any recipes yet.</p>
-            <button className="btn btn-primary" style={{ marginTop: '1.5rem' }} onClick={() => navigate('/submit')}>
-              Share Your First Recipe
+          <div style={{ padding: '6rem 2rem', textAlign: 'center', backgroundColor: 'var(--card-bg)', borderRadius: '2rem', border: '1px solid rgba(255,255,255,0.05)', boxShadow: 'var(--card-shadow)' }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem', marginBottom: '1.5rem' }}>You haven't contributed any recipes to the lounge yet.</p>
+            <button className="btn btn-primary" style={{ padding: '1rem 2rem' }} onClick={() => navigate('/submit')}>
+              Share Your First Secret Recipe
             </button>
           </div>
         )}
       </div>
+
     </div>
   );
 }
