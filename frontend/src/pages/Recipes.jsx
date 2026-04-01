@@ -4,6 +4,7 @@ import RecipeCard from '../components/RecipeCard';
 import RecipeSkeleton from '../components/RecipeSkeleton';
 import { Search, Filter, ShoppingBag } from 'lucide-react';
 import api from '../api';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Recipes() {
   const [recipes, setRecipes] = useState([]);
@@ -31,6 +32,9 @@ export default function Recipes() {
   const fetchRecipes = async (s, c, t) => {
     try {
       setLoading(true);
+      // Slight delay to prevent "jerking" and show the professional skeleton animations
+      await new Promise(resolve => setTimeout(resolve, 400));
+      
       const res = await api.get('/recipes', {
         params: { search: s, category: c, time: t }
       });
@@ -48,10 +52,10 @@ export default function Recipes() {
   };
 
   return (
-    <div className="container" style={{ padding: '2rem 1rem' }}>
+    <div className="container" style={{ padding: '2rem 1rem', minHeight: '80vh' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Browse Recipes</h1>
+          <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Explore Recipes</h1>
           <p style={{ color: 'var(--text-muted)' }}>Find your next favorite dish among our collection.</p>
         </div>
         
@@ -90,26 +94,45 @@ export default function Recipes() {
         </form>
       </div>
 
-      {loading ? (
-        <div className="grid grid-cols-3">
-          {[...Array(6)].map((_, i) => <RecipeSkeleton key={i} />)}
-        </div>
-      ) : recipes.length > 0 ? (
-        <div className="grid grid-cols-3">
-          {recipes.map(recipe => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
-          ))}
-        </div>
-      ) : (
-        <div style={{ textAlign: 'center', padding: '5rem', backgroundColor: 'var(--card-bg)', borderRadius: '1rem', border: '2px dashed var(--border-color)' }}>
-          <ShoppingBag size={64} style={{ color: 'var(--border-color)', marginBottom: '1.5rem', marginInline: 'auto' }} />
-          <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>No recipes found</h3>
-          <p style={{ color: 'var(--text-muted)' }}>We couldn't find anything matching your search. Try adjusting your filters.</p>
-          <button className="btn btn-outline" style={{ marginTop: '1.5rem' }} onClick={() => { setSearch(''); setCategory(''); setTime(''); }}>
-            Clear All Filters
-          </button>
-        </div>
-      )}
+      <AnimatePresence mode="wait">
+        {loading ? (
+          <motion.div 
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="grid grid-cols-3"
+          >
+            {[...Array(6)].map((_, i) => <RecipeSkeleton key={i} />)}
+          </motion.div>
+        ) : recipes.length > 0 ? (
+          <motion.div 
+            key="results"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="grid grid-cols-3"
+          >
+            {recipes.map(recipe => (
+              <RecipeCard key={recipe.id} recipe={recipe} />
+            ))}
+          </motion.div>
+        ) : (
+          <motion.div 
+            key="empty"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            style={{ textAlign: 'center', padding: '5rem', backgroundColor: 'var(--card-bg)', borderRadius: '1rem', border: '2px dashed var(--border-color)' }}
+          >
+            <ShoppingBag size={64} style={{ color: 'var(--border-color)', marginBottom: '1.5rem', marginInline: 'auto' }} />
+            <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>No recipes found</h3>
+            <p style={{ color: 'var(--text-muted)' }}>We couldn't find anything matching your search. Try adjusting your filters.</p>
+            <button className="btn btn-outline" style={{ marginTop: '1.5rem' }} onClick={() => { setSearch(''); setCategory(''); setTime(''); }}>
+              Clear All Filters
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
+
