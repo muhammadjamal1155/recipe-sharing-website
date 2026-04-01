@@ -1,17 +1,5 @@
 [
   {
-    "id": 1775033301267,
-    "title": "sawiya",
-    "ingredients": "Milk\r\nsugar\r\nsawiya\r\n",
-    "instructions": "Boil Milk\r\nput sugar \r\nput sawiya\r\nPut in freezer",
-    "category": "Breakfast",
-    "time": "15 mins",
-    "difficulty": "Easy",
-    "image": null,
-    "rating": 0,
-    "author": "Muhammad Jamal"
-  },
-  {
     "id": 1,
     "title": "Classic Pancakes",
     "ingredients": "Flour, Milk, Eggs, Sugar, Baking Powder",
