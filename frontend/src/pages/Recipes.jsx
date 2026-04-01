@@ -34,32 +34,33 @@ export default function Recipes() {
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const initialSearch = queryParams.get('search') || '';
-    const initialCategory = queryParams.get('category') || '';
+    const urlSearch = queryParams.get('search') || '';
+    const urlCategory = queryParams.get('category') || '';
     
-    setSearch(initialSearch);
-    setCategory(initialCategory);
-    fetchRecipes(initialSearch, initialCategory, time, true);
+    setSearch(urlSearch);
+    setCategory(urlCategory);
+    
+    // Immediate fetch for URL changes
+    fetchRecipes(urlSearch, urlCategory, time, true);
   }, [location.search]);
 
-  // Debounced search fetch
-  useEffect(() => {
-    if (search.length > 0 && search.length < 3) return;
-
-    const timer = setTimeout(() => {
-       fetchRecipes(search, category, time, false); 
-    }, 500); 
-
-    return () => clearTimeout(timer);
-  }, [search]);
-
+  // Debounced fetch for MANUAL search/filter changes (only if search is > 0 or specific filters changed)
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const urlCategory = queryParams.get('category') || '';
-    if (category !== urlCategory || time !== '') {
-       fetchRecipes(search, category, time, true);
-    }
-  }, [category, time]);
+
+    // Only skip if search is 1-2 chars (per requirement)
+    if (search.length > 0 && search.length < 3) return;
+
+    // Trigger on manual state changes ONLY if they differ from URL or if it's a 'time' filter change
+    // (Time filter isn't in URL yet)
+    const timer = setTimeout(() => {
+       fetchRecipes(search, category, time, false); 
+    }, 400); 
+
+    return () => clearTimeout(timer);
+  }, [search, category, time]);
+
 
   const handleSearch = (e) => {
     e.preventDefault();
