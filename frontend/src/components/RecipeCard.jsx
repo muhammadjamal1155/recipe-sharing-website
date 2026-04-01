@@ -5,23 +5,34 @@ import { motion } from 'framer-motion';
 
 export default function RecipeCard({ recipe }) {
   const [isFavorite, setIsFavorite] = useState(false);
+  const user = localStorage.getItem('username');
 
   useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    if (!user) {
+      setIsFavorite(false);
+      return;
+    }
+    const favorites = JSON.parse(localStorage.getItem(`favorites_${user}`) || '[]');
     setIsFavorite(favorites.includes(recipe.id));
-  }, [recipe.id]);
+  }, [recipe.id, user]);
 
   const toggleFavorite = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    
+    if (!user) {
+      return; // Or show login prompt toast
+    }
+
+    const key = `favorites_${user}`;
+    const favorites = JSON.parse(localStorage.getItem(key) || '[]');
     let updated;
     if (favorites.includes(recipe.id)) {
       updated = favorites.filter(id => id !== recipe.id);
     } else {
       updated = [...favorites, recipe.id];
     }
-    localStorage.setItem('favorites', JSON.stringify(updated));
+    localStorage.setItem(key, JSON.stringify(updated));
     setIsFavorite(updated.includes(recipe.id));
   };
 

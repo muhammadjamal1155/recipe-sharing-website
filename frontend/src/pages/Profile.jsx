@@ -24,7 +24,7 @@ export default function Profile() {
         setMyRecipes(allRecipes.filter(r => r.author === user));
         
         // My Favorites
-        const favoriteIds = JSON.parse(localStorage.getItem('favorites') || '[]');
+        const favoriteIds = JSON.parse(localStorage.getItem(`favorites_${user}`) || '[]');
         setFavoriteRecipes(allRecipes.filter(r => favoriteIds.includes(r.id)));
       } catch (error) {
         console.error('Error fetching profile data:', error);
