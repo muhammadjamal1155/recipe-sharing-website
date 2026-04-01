@@ -58,9 +58,16 @@ export default function Profile() {
         ) : favoriteRecipes.length > 0 ? (
           <div className="grid grid-cols-3">
             {favoriteRecipes.map(recipe => (
-              <RecipeCard key={recipe.id} recipe={recipe} />
+              <RecipeCard 
+                key={recipe.id} 
+                recipe={recipe} 
+                onToggleFavorite={(id, isFav) => {
+                   if (!isFav) setFavoriteRecipes(prev => prev.filter(r => r.id !== id));
+                }}
+              />
             ))}
           </div>
+
         ) : (
           <div style={{ padding: '4rem 2rem', textAlign: 'center', backgroundColor: '#f8fafc', borderRadius: '1rem', border: '2px dashed var(--border-color)' }}>
               <p style={{ color: 'var(--text-muted)', marginBottom: '1rem' }}>You haven't saved any favorites yet.</p>

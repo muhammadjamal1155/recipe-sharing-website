@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Clock, ChefHat, Star, Heart } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export default function RecipeCard({ recipe }) {
+export default function RecipeCard({ recipe, onToggleFavorite }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const user = localStorage.getItem('username');
 
@@ -34,7 +34,9 @@ export default function RecipeCard({ recipe }) {
     }
     localStorage.setItem(key, JSON.stringify(updated));
     setIsFavorite(updated.includes(recipe.id));
+    if (onToggleFavorite) onToggleFavorite(recipe.id, updated.includes(recipe.id));
   };
+
 
   const imageUrl = recipe.image 
     ? `http://localhost:3001${recipe.image}`
