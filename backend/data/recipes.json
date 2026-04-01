@@ -13,6 +13,30 @@
   },
   {
     "id": 2,
+    "title": "Fluffy French Toast",
+    "ingredients": "Bread, Eggs, Milk, Cinnamon, Vanilla, Butter",
+    "instructions": "Whisk eggs, milk, cinnamon, and vanilla. Dip bread. Fry until golden brown.",
+    "category": "Breakfast",
+    "time": "10 mins",
+    "difficulty": "Easy",
+    "image": null,
+    "rating": 4.7,
+    "author": "admin"
+  },
+  {
+    "id": 11,
+    "title": "Egg & Bacon Burrito",
+    "ingredients": "Tortilla, Eggs, Bacon, Cheese, Salsa",
+    "instructions": "Cook eggs and bacon. Assemble into tortilla with cheese and salsa. Roll up.",
+    "category": "Breakfast",
+    "time": "12 mins",
+    "difficulty": "Easy",
+    "image": null,
+    "rating": 4.6,
+    "author": "admin"
+  },
+  {
+    "id": 3,
     "title": "Vegan Avocado Toast",
     "ingredients": "Bread, Avocado, Salt, Pepper, Lemon Juice",
     "instructions": "Toast bread. Mash avocado with lemon, salt, and pepper. Spread on toast.",
@@ -24,15 +48,99 @@
     "author": "admin"
   },
   {
-    "id": 3,
+    "id": 4,
+    "title": "Chickpea Buddha Bowl",
+    "ingredients": "Chickpeas, Quinoa, Spinach, Avocado, Hummus",
+    "instructions": "Combine all ingredients in a bowl. Drizzle with hummus.",
+    "category": "Vegan",
+    "time": "15 mins",
+    "difficulty": "Easy",
+    "image": null,
+    "rating": 4.9,
+    "author": "admin"
+  },
+  {
+    "id": 12,
+    "title": "Tofu Stir-fry",
+    "ingredients": "Tofu, Broccoli, Carrot, Soy Sauce, Ginger, Garlic",
+    "instructions": "Cube and fry tofu. Add veggies and sauce. Stir-fry for 10 mins.",
+    "category": "Vegan",
+    "time": "20 mins",
+    "difficulty": "Medium",
+    "image": null,
+    "rating": 4.5,
+    "author": "admin"
+  },
+  {
+    "id": 5,
     "title": "Chocolate Lava Cake",
     "ingredients": "Chocolate, Butter, Sugar, Eggs, Flour",
-    "instructions": "Melt chocolate and butter. Mix in sugar, eggs, flour. Bake at 400F for 10 mins.",
+    "instructions": "Melt chocolate. Mix with other ingredients. Bake at 400F for 10-12 mins.",
     "category": "Desserts",
     "time": "30 mins",
     "difficulty": "Medium",
     "image": null,
     "rating": 4.9,
+    "author": "admin"
+  },
+  {
+    "id": 6,
+    "title": "Berry Cheesecake",
+    "ingredients": "Cream Cheese, Graham Crackers, Berries, Sugar, Vanilla",
+    "instructions": "Press crackers into base. Top with cheese mixture. Chill and add berries.",
+    "category": "Desserts",
+    "time": "1 hr+",
+    "difficulty": "Medium",
+    "image": null,
+    "rating": 4.8,
+    "author": "admin"
+  },
+  {
+    "id": 13,
+    "title": "Apple Crumble",
+    "ingredients": "Apples, Oats, Flour, Brown Sugar, Cinnamon, Butter",
+    "instructions": "Slice apples with cinnamon. Top with oat mixture. Bake until bubbly.",
+    "category": "Desserts",
+    "time": "45 mins",
+    "difficulty": "Medium",
+    "image": null,
+    "rating": 4.7,
+    "author": "admin"
+  },
+  {
+    "id": 7,
+    "title": "Grilled Lemon Salmon",
+    "ingredients": "Salmon, Lemon, Garlic, Asparagus, Olive Oil",
+    "instructions": "Season salmon. Grill with asparagus. Serve with fresh lemon.",
+    "category": "Dinner",
+    "time": "20 mins",
+    "difficulty": "Medium",
+    "image": null,
+    "rating": 4.9,
+    "author": "admin"
+  },
+  {
+    "id": 8,
+    "title": "Spaghetti Carbonara",
+    "ingredients": "Pasta, Eggs, Cheese, Pancetta, Black Pepper",
+    "instructions": "Boil pasta. Fry pancetta. Mix pasta with eggs and cheese off-heat.",
+    "category": "Dinner",
+    "time": "25 mins",
+    "difficulty": "Medium",
+    "image": null,
+    "rating": 4.8,
+    "author": "admin"
+  },
+  {
+    "id": 14,
+    "title": "Vegetable Risotto",
+    "ingredients": "Arborio Rice, Broth, Zucchini, Peas, Onion, Parmesan",
+    "instructions": "Sauté onions and rice. Gradually add broth. Stir in veggies and cheese.",
+    "category": "Dinner",
+    "time": "40 mins",
+    "difficulty": "Medium",
+    "image": null,
+    "rating": 4.6,
     "author": "admin"
   }
 ]
