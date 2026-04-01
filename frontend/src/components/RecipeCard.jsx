@@ -38,7 +38,7 @@ export default function RecipeCard({ recipe }) {
 
   const imageUrl = recipe.image 
     ? `http://localhost:3001${recipe.image}`
-    : `https://placehold.co/400x250/f97316/ffffff?font=outfit&text=${encodeURIComponent(recipe.title)}`;
+    : `https://placehold.co/400x250/10b981/ffffff?font=outfit&text=${encodeURIComponent(recipe.title)}`;
 
   return (
     <motion.div
@@ -50,10 +50,11 @@ export default function RecipeCard({ recipe }) {
       <Link to={`/recipes/${recipe.id}`} className="card" style={{ display: 'block', textDecoration: 'none', color: 'inherit', position: 'relative' }}>
         <button 
           onClick={toggleFavorite}
-          style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 10, background: 'rgba(255,255,255,0.8)', border: 'none', borderRadius: '50%', padding: '0.5rem', display: 'flex', transition: 'all 0.3s' }}
+          style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 10, background: 'rgba(15,23,42,0.8)', border: 'none', borderRadius: '50%', padding: '0.5rem', display: 'flex', transition: 'all 0.3s' }}
         >
-          <Heart size={20} fill={isFavorite ? "#ef4444" : "transparent"} color={isFavorite ? "#ef4444" : "#64748b"} />
+          <Heart size={20} fill={isFavorite ? "#ef4444" : "transparent"} color={isFavorite ? "#ef4444" : "#94a3b8"} />
         </button>
+
 
         <div style={{ height: '200px', overflow: 'hidden' }}>
           <img src={imageUrl} alt={recipe.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />

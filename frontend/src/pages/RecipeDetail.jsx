@@ -100,12 +100,13 @@ export default function RecipeDetail() {
               <h2 style={{ fontSize: '2.8rem', margin: 0 }}>Ingredients</h2>
               <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>Check items as you gather them from your pantry.</p>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#fff', padding: '0.75rem 1.25rem', borderRadius: '1rem', boxShadow: 'var(--card-shadow)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: 'var(--card-bg)', padding: '0.75rem 1.25rem', borderRadius: '1rem', border: '1px solid rgba(255,255,255,0.05)', boxShadow: 'var(--card-shadow)' }}>
               <Users size={18} color="var(--primary)" />
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <button 
                   onClick={() => servings > 1 && setServings(Number(servings) - 1)}
                   className="btn-icon"
+                  style={{ color: 'var(--text-main)' }}
                   title="Remove Serving"
                 >
                   <Minus size={20} />
@@ -116,18 +117,20 @@ export default function RecipeDetail() {
                    onChange={(e) => handleServingChange(e.target.value)}
                    style={{ 
                      width: '50px', border: 'none', background: 'transparent', textAlign: 'center',
-                     fontWeight: 800, fontSize: '1.2rem', outline: 'none'
+                     fontWeight: 800, fontSize: '1.2rem', outline: 'none', color: 'var(--text-main)'
                    }}
                 />
                 <button 
                   onClick={() => servings < 99 && setServings(Number(servings) + 1)}
                   className="btn-icon"
+                  style={{ color: 'var(--text-main)' }}
                   title="Add Serving"
                 >
                   <Plus size={20} />
                 </button>
               </div>
             </div>
+
           </div>
 
 
@@ -139,17 +142,17 @@ export default function RecipeDetail() {
                 whileHover={{ scale: 1.02 }}
                 style={{ 
                   display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.5rem', 
-                  backgroundColor: checkedIngredients.includes(idx) ? '#f0fdf4' : '#fff',
-                  borderRadius: '1.25rem', border: '1px solid', borderColor: checkedIngredients.includes(idx) ? '#bbf7d0' : 'var(--border-color)',
+                  backgroundColor: checkedIngredients.includes(idx) ? 'rgba(16, 185, 129, 0.1)' : 'var(--card-bg)',
+                  borderRadius: '1.25rem', border: '1px solid', borderColor: checkedIngredients.includes(idx) ? '#10b981' : 'rgba(255, 255, 255, 0.05)',
                   cursor: 'pointer', transition: 'all 0.3s', 
-                  boxShadow: checkedIngredients.includes(idx) ? 'none' : '0 4px 6px -1px rgba(0,0,0,0.05)'
+                  boxShadow: checkedIngredients.includes(idx) ? 'none' : '0 10px 15px -3px rgba(0,0,0,0.1)'
                 }}
               >
                 <div style={{ 
                   width: '28px', height: '28px', borderRadius: '8px', border: '2px solid', 
-                  borderColor: checkedIngredients.includes(idx) ? '#22c55e' : '#cbd5e1',
+                  borderColor: checkedIngredients.includes(idx) ? '#10b981' : '#475569',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  backgroundColor: checkedIngredients.includes(idx) ? '#22c55e' : '#fff',
+                  backgroundColor: checkedIngredients.includes(idx) ? '#10b981' : 'transparent',
                   transition: 'all 0.3s'
                 }}>
                   {checkedIngredients.includes(idx) && <CheckCircle size={18} color="white" />}
@@ -157,7 +160,7 @@ export default function RecipeDetail() {
                 <span style={{ 
                    fontSize: '1.1rem', 
                    textDecoration: checkedIngredients.includes(idx) ? 'line-through' : 'none',
-                   color: checkedIngredients.includes(idx) ? '#94a3b8' : 'var(--text-main)',
+                   color: checkedIngredients.includes(idx) ? '#64748b' : 'var(--text-main)',
                    fontWeight: 500
                 }}>
                   {item.trim()}
@@ -165,6 +168,7 @@ export default function RecipeDetail() {
               </motion.div>
             ))}
           </div>
+
 
           <h2 style={{ fontSize: '2.8rem', marginBottom: '2.5rem' }}>Instructions</h2>
           <div style={{ display: 'grid', gap: '2rem' }}>

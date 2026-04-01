@@ -112,23 +112,24 @@ export default function SubmitRecipe() {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Recipe Image (Optional)</label>
-            <div style={{ padding: '2rem', border: '2px dashed var(--border-color)', borderRadius: '1rem', textAlign: 'center', backgroundColor: '#f8fafc', position: 'relative' }}>
+            <label className="form-label" style={{ color: 'var(--text-main)', fontSize: '1.1rem' }}>Recipe Image (Optional)</label>
+            <div style={{ padding: '3rem', border: '2px dashed var(--primary)', borderRadius: '1.5rem', textAlign: 'center', backgroundColor: 'rgba(255, 255, 255, 0.02)', position: 'relative', transition: 'all 0.3s' }}>
               {preview ? (
                 <>
-                  <img src={preview} alt="Preview" style={{ width: '100%', maxHeight: '400px', objectFit: 'cover', borderRadius: '0.5rem' }} />
-                  <button type="button" onClick={() => { setImage(null); setPreview(null); }} style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'red', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '0.5rem', cursor: 'pointer' }}>Remove</button>
+                  <img src={preview} alt="Preview" style={{ width: '100%', maxHeight: '400px', objectFit: 'cover', borderRadius: '1rem' }} />
+                  <button type="button" onClick={() => { setImage(null); setPreview(null); }} style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', background: '#ef4444', color: 'white', border: 'none', padding: '0.6rem 1.2rem', borderRadius: '0.75rem', cursor: 'pointer', fontWeight: 600 }}>Remove Image</button>
                 </>
               ) : (
                 <>
-                  <Upload size={48} color="var(--primary)" style={{ marginBottom: '1rem' }} />
-                  <p style={{ color: 'var(--text-muted)' }}>Click to upload an image or drag and drop</p>
-                  <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>PNG, JPG up to 5MB</p>
+                  <Upload size={56} color="var(--primary)" style={{ marginBottom: '1.5rem', opacity: 0.8 }} />
+                  <p style={{ color: 'var(--text-main)', fontSize: '1.1rem', fontWeight: 500 }}>Click to upload an image or drag and drop</p>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>PNG, JPG up to 5MB</p>
                   <input type="file" accept="image/*" onChange={handleFileChange} style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer' }} />
                 </>
               )}
             </div>
           </div>
+
 
           <button type="submit" className="btn btn-primary" style={{ width: '100%', fontSize: '1.1rem', padding: '1rem' }}>
             Submit Recipe

@@ -90,26 +90,26 @@ export default function Home() {
             <button className="btn btn-primary" onClick={() => navigate('/recipes')}>
               Browse Recipes <ArrowRight size={18} style={{marginLeft: '0.5rem'}}/>
             </button>
-            <button className="btn" style={{backgroundColor: 'white', color: 'var(--text-main)'}} onClick={() => navigate('/submit')}>
-              Submit a Recipe
+            <button className="btn" style={{backgroundColor: 'white', color: '#0f172a'}} onClick={() => navigate('/submit')}>
+               Submit a Recipe
             </button>
           </motion.div>
         </div>
       </section>
 
       {/* Featured Categories */}
-      <section className="container" style={{ padding: '5rem 1rem' }}>
+      <section className="container" style={{ padding: '8rem 1rem' }}>
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          style={{ textAlign: 'center', marginBottom: '3rem' }}
+          style={{ textAlign: 'center', marginBottom: '5rem' }}
         >
-          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Featured Categories</h2>
-          <p style={{ color: 'var(--text-muted)' }}>Explore recipes tailored to your cravings and dietary preferences.</p>
+          <h2 style={{ fontSize: '3.5rem', marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>Featured Categories</h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: '1.25rem', maxWidth: '600px', margin: '0 auto' }}>Explore recipes tailored to your cravings and dietary preferences.</p>
         </motion.div>
 
-        <div className="grid grid-cols-3" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}>
+        <div className="grid grid-cols-3" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '2.5rem' }}>
           {categories.map((cat, idx) => (
             <motion.div 
               key={idx} 
@@ -118,19 +118,27 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              whileHover={{ scale: 1.05, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}
+              whileHover={{ scale: 1.05, y: -10, boxShadow: '0 30px 60px -12px rgba(0,0,0,0.5)' }}
               onClick={() => navigate(`/recipes?category=${cat.name}`)}
               style={{ 
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                padding: '3rem 2rem', cursor: 'pointer', textAlign: 'center', background: `linear-gradient(135deg, white, ${cat.color}20)`
+                padding: '4rem 2rem', cursor: 'pointer', textAlign: 'center', 
+                background: `linear-gradient(135deg, rgba(255,255,255,0.03), ${cat.color}15)`,
+                border: '1px solid rgba(255,255,255,0.05)', borderRadius: '2.5rem'
               }}
             >
-              <span style={{ fontSize: '4rem', marginBottom: '1rem' }}>{cat.icon}</span>
-              <h3 style={{ fontSize: '1.5rem', margin: 0 }}>{cat.name}</h3>
+              <div style={{ 
+                fontSize: '4.5rem', marginBottom: '1.5rem', filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.2))',
+                transform: 'scale(1)', transition: 'transform 0.3s'
+              }}>
+                {cat.icon}
+              </div>
+              <h3 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'white' }}>{cat.name}</h3>
             </motion.div>
           ))}
         </div>
       </section>
+
 
     </div>
   );
