@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import RecipeCard from '../components/RecipeCard';
 import RecipeSkeleton from '../components/RecipeSkeleton';
-import { Search, Filter, ShoppingBag, X } from 'lucide-react';
+import { Search, Filter, ShoppingBag, X, RotateCcw } from 'lucide-react';
 import api from '../api';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export default function Recipes() {
   const [recipes, setRecipes] = useState([]);
@@ -44,17 +44,15 @@ export default function Recipes() {
 
   // Debounced search fetch
   useEffect(() => {
-    // Requirements: 3+ characters or empty
     if (search.length > 0 && search.length < 3) return;
 
     const timer = setTimeout(() => {
-       fetchRecipes(search, category, time, false); // Fetch without skeletons for "live" feel
-    }, 500); // 500ms debounce
+       fetchRecipes(search, category, time, false); 
+    }, 500); 
 
     return () => clearTimeout(timer);
   }, [search]);
 
-  // Category/Time selection should probably show skeletons as they are "major" filters
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const urlCategory = queryParams.get('category') || '';
@@ -68,25 +66,16 @@ export default function Recipes() {
     fetchRecipes(search, category, time, true);
   };
 
-
   const clearSearch = () => {
     setSearch('');
     fetchRecipes('', category, time);
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    show: { opacity: 1, y: 0 }
+  const resetFilters = () => {
+    setSearch('');
+    setCategory('');
+    setTime('');
+    fetchRecipes('', '', '', true);
   };
 
   return (
@@ -97,7 +86,7 @@ export default function Recipes() {
           <p style={{ color: 'var(--text-muted)' }}>Find your next favorite dish among our collection.</p>
         </div>
         
-        <form onSubmit={handleSearch} style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <form onSubmit={handleSearch} style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
           <div style={{ position: 'relative' }}>
             <input 
               type="text" 
@@ -105,7 +94,7 @@ export default function Recipes() {
               placeholder="Search..." 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{ width: '250px', paddingLeft: '2.5rem', paddingRight: '2.5rem' }}
+              style={{ width: '220px', paddingLeft: '2.5rem', paddingRight: '2.5rem' }}
             />
             <Search size={18} style={{ position: 'absolute', left: '0.8rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
             {search && (
@@ -117,15 +106,15 @@ export default function Recipes() {
             )}
           </div>
           
-          <select className="input" style={{ width: '150px' }} value={category} onChange={(e) => setCategory(e.target.value)}>
-            <option value="">All Categories</option>
+          <select className="input" style={{ width: '140px' }} value={category} onChange={(e) => setCategory(e.target.value)}>
+            <option value="">Categories</option>
             <option value="Breakfast">Breakfast</option>
             <option value="Vegan">Vegan</option>
             <option value="Desserts">Desserts</option>
             <option value="Dinner">Dinner</option>
           </select>
           
-          <select className="input" style={{ width: '150px' }} value={time} onChange={(e) => setTime(e.target.value)}>
+          <select className="input" style={{ width: '130px' }} value={time} onChange={(e) => setTime(e.target.value)}>
             <option value="">Any Time</option>
             <option value="5 mins">5 mins</option>
             <option value="15 mins">15 mins</option>
@@ -133,11 +122,17 @@ export default function Recipes() {
             <option value="1 hr+">1 hr+</option>
           </select>
           
-          <button type="submit" className="btn btn-primary" style={{ padding: '0.75rem' }}>
-            <Filter size={20} />
-          </button>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button type="submit" className="btn btn-primary" title="Apply Filters" style={{ padding: '0.75rem' }}>
+              <Filter size={20} />
+            </button>
+            <button type="button" onClick={resetFilters} className="btn btn-outline" title="Reset All" style={{ padding: '0.75rem', borderColor: 'var(--border-color)', color: 'var(--text-muted)' }}>
+              <RotateCcw size={20} />
+            </button>
+          </div>
         </form>
       </div>
+
 
 
       {/* Only show skeletons if we have no recipes yet to avoid annoying flickering/blinking */}
